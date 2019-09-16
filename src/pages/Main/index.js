@@ -12,6 +12,7 @@ export default class Main extends Component {
     newRepo: '',
     repositories: [],
     loading: false,
+    hasError: false,
   };
 
   // Carregar os dados do localStorate
@@ -43,34 +44,57 @@ export default class Main extends Component {
 
     const { newRepo, repositories } = this.state;
 
-    const response = await api.get(`/repos/${newRepo}`);
+    try {
+      const response = await api.get(`/repos/${newRepo}`);
 
-    const data = {
-      name: response.data.full_name,
-    };
+      const data = {
+        name: response.data.full_name,
+      };
 
-    this.setState({
-      repositories: [...repositories, data],
-      newRepo: '',
-      loading: false,
-    });
+      this.setState({
+        repositories: [...repositories, data],
+        newRepo: '',
+        loading: false,
+        hasError: false,
+      });
+      console.log('sucess');
+    } catch (response) {
+      this.setState({
+        repositories: [...repositories],
+        newRepo: '',
+        loading: false,
+        hasError: true,
+      });
+      console.log('failed');
+    }
   };
 
   render() {
-    const { newRepo, repositories, loading } = this.state;
+    const { newRepo, repositories, loading, hasError } = this.state;
+
     return (
       <Container>
         <h1>
           <FaGithubAlt />
           Repositórios
         </h1>
-        <Form onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            placeholder="Adicionar repositório"
-            value={newRepo}
-            onChange={this.handleInputChange}
-          />
+
+        <Form onSubmit={this.handleSubmit} hasError={hasError}>
+          {hasError ? (
+            <input
+              type="text"
+              placeholder="Repositório inválido"
+              value={newRepo}
+              onChange={this.handleInputChange}
+            />
+          ) : (
+            <input
+              type="text"
+              placeholder="Adicionar repositório"
+              value={newRepo}
+              onChange={this.handleInputChange}
+            />
+          )}
 
           <SubmitButton loading={loading}>
             {loading ? (
