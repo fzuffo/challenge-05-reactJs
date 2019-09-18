@@ -42,9 +42,57 @@ export const Owner = styled.header`
   }
 `;
 
+export const IssueFilter = styled.ul`
+  margin-bottom: 15px;
+
+  button {
+    font-family: Arial, Helvetica, sans-serif;
+    width: 80px;
+    height: 30px;
+    border: 1px solid #666;
+    border-radius: 5px;
+    color: #666;
+    background-color: #fff;
+    font-size: 14px;
+    margin-left: 2px;
+
+    :hover {
+      background-color: #7159c1;
+      color: white;
+    }
+  }
+`;
+
+export const PageActions = styled.div`
+  margin-top: 15px;
+
+
+  span {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0 5px;
+    color: #666;
+  }
+
+button {
+    font-family: Arial, Helvetica, sans-serif;
+    width: 80px;
+    height: 30px;
+    border: 1px solid #666;
+    border-radius: 5px;
+    color: #666;
+    background-color: #fff;
+    font-size: 14px;
+    margin-left: 2px;
+
+    :hover {
+      background-color: #7159c1;
+      color: white;
+    }
+`;
+
 export const IssueList = styled.ul`
-  padding-top: 30px;
-  margin-top: 30px;
+  padding-top: 15px;
+  margin-top: 15px;
   border-top: 1px solid #eee;
   list-style: none;
 

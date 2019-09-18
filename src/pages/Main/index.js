@@ -38,13 +38,20 @@ export default class Main extends Component {
   };
 
   handleSubmit = async e => {
-    e.preventDefault();
+    e.preventDefault(); // prevent refresh page
 
-    this.setState({ loading: true });
-
-    const { newRepo, repositories } = this.state;
+    this.setState({ loading: true, hasError: false });
 
     try {
+      const { newRepo, repositories } = this.state;
+
+      if (newRepo === '')
+        throw new Error('Você precisa indicar um repositório');
+
+      const findRepo = repositories.find(repo => repo.name === newRepo);
+
+      if (findRepo) throw new Error('Repositório duplicado');
+
       const response = await api.get(`/repos/${newRepo}`);
 
       const data = {
@@ -57,15 +64,13 @@ export default class Main extends Component {
         loading: false,
         hasError: false,
       });
-      console.log('sucess');
-    } catch (response) {
+      console.log('Success');
+    } catch (error) {
       this.setState({
-        repositories: [...repositories],
-        newRepo: '',
         loading: false,
         hasError: true,
       });
-      console.log('failed');
+      console.log('Failed');
     }
   };
 
@@ -83,7 +88,7 @@ export default class Main extends Component {
           {hasError ? (
             <input
               type="text"
-              placeholder="Repositório inválido"
+              placeholder="Adicionar repositório"
               value={newRepo}
               onChange={this.handleInputChange}
             />
